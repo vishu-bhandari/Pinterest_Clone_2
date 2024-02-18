@@ -35,12 +35,35 @@ router.post("/createpost",isLoggedIn,upload.single("postimage"),async function(r
 
 
 router.get("/profile", isLoggedIn,async function (req, res, next) {
-  const user = await userModel.findOne({
-    username: req.session.passport.user,
-  });
-  res.render("profile",{user , nav:true});
+  const user = 
+  await userModel
+  .findOne({username: req.session.passport.user})
+  .populate("posts")
+  console.log(user);
+  res.render("profile",{user , nav:true})
+  
   
 });
+router.get("/show/posts", isLoggedIn,async function (req, res, next) {
+  const user = 
+  await userModel
+  .findOne({username: req.session.passport.user})
+  .populate("posts")
+  console.log(user);
+  res.render("show",{user , nav:true})
+  
+  
+});
+router.get("/feed", isLoggedIn,async function (req, res, next) {
+  const user = 
+  await userModel
+  .findOne({username: req.session.passport.user})
+  const posts=await postModel.find()
+  .populate("user")
+
+  res.render('/feed', {user,posts, nav:true});
+});
+
 
 router.post(
   "/fileupload",
