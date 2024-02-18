@@ -61,7 +61,7 @@ router.get("/feed", isLoggedIn,async function (req, res, next) {
   const posts=await postModel.find()
   .populate("user")
 
-  res.render('/feed', {user,posts, nav:true});
+  res.render('feed', {user,posts, nav:true});
 });
 
 
